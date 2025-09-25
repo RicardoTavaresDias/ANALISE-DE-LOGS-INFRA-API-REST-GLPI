@@ -1,3 +1,4 @@
+import { broadcastWss2 } from "@/utils/broadcast-ws"
 import { GlpiBrowser } from "./glpi-session"
 import { env } from "@/config/env"
 
@@ -25,7 +26,7 @@ export class GlpiCalleds {
    */
 
   public async taskCalled (idCalled: string, description: string) {
-    await fetch(`${env.URLGLPI}/TicketTask`, {
+    const result = await fetch(`${env.URLGLPI}/TicketTask`, {
       method: "POST",
       headers:  {
         'Content-Type': "application/json",
@@ -40,6 +41,11 @@ export class GlpiCalleds {
         }
       })
     })
+
+    const data = await result.json()
+    if (Array.isArray(data)) {
+      broadcastWss2(`<p>❌ Erro ao processar: ` + data[1] + "<p>")
+    }
   }
 
     /**
@@ -55,7 +61,7 @@ export class GlpiCalleds {
     await new Promise(resolve => setTimeout(resolve, 1000))
     const nameUser = this.browser.getUser()!.name
 
-    await fetch(`${env.URLGLPI}/Ticket/${id}/ITILSolution`, {
+    const result = await fetch(`${env.URLGLPI}/Ticket/${id}/ITILSolution`, {
       method: "POST",
        headers:  {
         'Content-Type': "application/json",
@@ -71,5 +77,10 @@ export class GlpiCalleds {
         }
       })
     })
+
+    const data = await result.json()
+    if (Array.isArray(data)) {
+      broadcastWss2(`<p>❌ Erro ao processar: ` + data[1] + "<p>")
+    }
   }
 }

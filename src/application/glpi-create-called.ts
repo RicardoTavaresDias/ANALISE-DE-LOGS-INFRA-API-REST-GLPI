@@ -54,6 +54,10 @@ export class GlpiCreateCalled {
     })
 
     const data = await result.json()
+    if (Array.isArray(data)) {
+      broadcastWss2(`<p>❌ Erro ao processar: ` + data[1] + "<p>")
+    }
+
     broadcastWss2('<p style="color: #f59e0b">Chamado criado ' + data.id + "</p>")
     return data.id
   }

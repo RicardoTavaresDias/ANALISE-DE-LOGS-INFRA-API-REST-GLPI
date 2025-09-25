@@ -1,6 +1,7 @@
 import { env } from "@/config/env"
 import { GlpiBrowser } from "./glpi-session"
 import { Root } from "./interface/ICredentials"
+import { broadcastWss2 } from "@/utils/broadcast-ws"
 
 /**
  * Classe responsável por validar existência de chamados
@@ -51,6 +52,10 @@ export class GlpiValidationCalled {
     })
 
     const data: Root = await result.json()
+    if (Array.isArray(data)) {
+      broadcastWss2(`<p>❌ Erro ao processar: ` + data[1] + "<p>")
+    }
+    
     if (data.count === 0) return []
 
     const idCalledExists = data.data.map((value) => [ String(value["2"]), value["80"].replace("REGIAO SACA > ", "") ]).flat()

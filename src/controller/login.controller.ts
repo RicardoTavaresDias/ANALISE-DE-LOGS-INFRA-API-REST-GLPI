@@ -59,23 +59,18 @@ import { GlpiFacade } from "@/application/facade/glpi-facade";
 
 export class LoginController {
   async session (request: Request, response: Response, next: NextFunction) {
-    try {
-      const user = loginSchema.safeParse(request.body)
-      if(!user.success) {
-        return response.status(400).json({ 
-          message: user.error.issues.map(err => (err.path + " " + err.message)) 
-        })
-      }
-
-      const glpiFacade = new GlpiFacade({ 
-        password: user.data.password, 
-        user: user.data.user
+    const user = loginSchema.safeParse(request.body)
+    if(!user.success) {
+      return response.status(400).json({ 
+        message: user.error.issues.map(err => (err.path + " " + err.message)) 
       })
-
-      await glpiFacade.processCalleds(user.data.dateInterval)
-
-    } catch (error) {
-      next(error)
     }
+
+    const glpiFacade = new GlpiFacade({ 
+      password: user.data.password, 
+      user: user.data.user
+    })
+
+    await glpiFacade.processCalleds(user.data.dateInterval)
   }
 }

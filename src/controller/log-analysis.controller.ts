@@ -44,27 +44,23 @@ class LogAnalysis {
  */
   
   async byLogsFiles (request: Request, response: Response) {
-    try {
-      const dateFile = dateSchema.safeParse(request.body)
-      if (!dateFile.success) {
-        return response.status(400).json({ 
-          message: dateFile.error.issues.map(err => (err.path + " " + err.message)) 
-        })
-      }
-
-      const fileStructure = new FileStructure()
-      const result = fileStructure.getFilesTree({ 
-        bodyDateStart: dateFile.data.dateStart, 
-        bodyDateEnd: dateFile.data.dateEnd 
+    const dateFile = dateSchema.safeParse(request.body)
+    if (!dateFile.success) {
+      return response.status(400).json({ 
+        message: dateFile.error.issues.map(err => (err.path + " " + err.message)) 
       })
-
-      const fileLogFacade = new FileLogFacade()
-      await fileLogFacade.processLogs(result)
-      
-      response.status(200).json({ message: 'Arquivo Gerado com sucesso' })
-    }catch (error: any) {
-      response.status(500).json({ message: error.message })
     }
+
+    const fileStructure = new FileStructure()
+    const result = fileStructure.getFilesTree({ 
+      bodyDateStart: dateFile.data.dateStart, 
+      bodyDateEnd: dateFile.data.dateEnd 
+    })
+
+    const fileLogFacade = new FileLogFacade()
+    await fileLogFacade.processLogs(result)
+    
+    response.status(200).json({ message: 'Arquivo Gerado com sucesso' })
   }
 }
 
