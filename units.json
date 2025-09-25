@@ -1,0 +1,9 @@
+{
+  "aeroporto": {"name": "UBS Jardim Aeroporto - Dr. Massaki Udihara", "id": 79},
+  "apura": {"name": "UBS/ESF Jardim Apurá", "id": 87},
+  "cdjulia": {"name": "UBS/ESF Cidade Júlia", "id": 86},
+  "chacarasto": {"name": "UBS Chácara Santo Antônio - Dr. Marcílio de Arruda Penteado", "id": 77},
+  "guacuri": {"name": "UBS/ESF Vila Guacuri - Cicero Sergio Cavalcante", "id": 97},
+  "mpaulista": {"name": "UBS/ESF Mar Paulista", "id": 93},
+  "pantanal": {"name": "UBS/ESF Jardim Novo Pantanal", "id": 89}
+}
