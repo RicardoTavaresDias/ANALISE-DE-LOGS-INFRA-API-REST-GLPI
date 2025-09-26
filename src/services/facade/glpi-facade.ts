@@ -1,14 +1,14 @@
-import { GlpiSession } from "../glpi-session"
-import { GlpiCalleds } from "../glpi-calleds"
-import { GlpiAuth } from "../glpi-auth"
-import { GlpiCreateCalled } from "../glpi-create-called"
+import { GlpiSession } from "@/application/glpi-session"
+import { GlpiCalleds } from "@/application/glpi-calleds"
+import { GlpiAuth } from "@/application/glpi-auth"
+import { GlpiCreateCalled } from "@/application/glpi-create-called"
 import { dayOfWeek, incrementDay, readTaskCalled, removeFolderUnit, taskCalled, uniqueUnitsToHtml, validationCalledExists } from "@/services/glpi-task-called.services"
 import standardizationUnits from "@/lib/standardization-units"
 import { AppError } from "@/utils/AppError"
 import { broadcastWss2 } from "@/utils/broadcast-ws"
-import { GlpiValidationCalled } from "../glpi-validation-called"
+import { GlpiValidationCalled } from "@/application/glpi-validation-called"
 import { DateType } from "@/schemas/log-analysis.schema"
-import { Credentials } from "../interface/ICredentials"
+import { Credentials } from "@/application/interface/ICredentials"
 
 /**
  * Classe responsável por orquestrar todas as operações de chamados no GLPI.
@@ -77,7 +77,7 @@ export class GlpiFacade {
         if(responseUnits.isError){
           // Inserir tarefa e fecha chamado => log sem Err
           await this.calleds.taskCalled(IdCalledCreate, responseUnits.logs)
-          await this.calleds.closeCalled(IdCalledCreate)
+          await this.calleds.calledSolution(IdCalledCreate)
         } else {
           // Inserir tarefa e deixa aberto o chamado => logs com Err
           await this.calleds.taskCalled(IdCalledCreate, responseUnits.logs)

@@ -53,6 +53,7 @@ export class GlpiAuth {
 
     this.session.setSessionToken(data.session_token)
     this.User()
+    return data.session_token
   }
 
     /**

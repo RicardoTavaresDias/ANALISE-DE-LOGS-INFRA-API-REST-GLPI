@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { loginSchema, sessionLoginShema } from "@/schemas/glpi.schema";
-import { GlpiFacade } from "@/application/facade/glpi-facade";
-import { GLPIEntity } from "@/application/glpi-entity";
+import { GlpiFacade } from "@/services/facade/glpi-facade";
+import { GLPIEntityServices } from "@/services/glpi-entity.services";
 
 export class GlpiController {
 
@@ -136,12 +136,12 @@ export class GlpiController {
       })
     }
 
-    const entity = new GLPIEntity()
-    const units = await entity.entity({
+    const entity = new GLPIEntityServices ({
       user: user.data.user,
       password: user.data.password
     })
 
-    response.status(200).json(units)
+    const resultEntity = await entity.entityServices()
+    response.status(200).json(resultEntity)
   }
 }

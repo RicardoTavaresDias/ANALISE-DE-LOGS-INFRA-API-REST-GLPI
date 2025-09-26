@@ -1,5 +1,9 @@
 import { env } from "@/config/env";
-import { Credentials } from "@/application/interface/ICredentials"
+import { GlpiSession } from "./glpi-session";
+
+/**
+ * Representa os dados de uma entidade no GLPI.
+ */
 
 export interface Data {
   id: number
@@ -8,46 +12,37 @@ export interface Data {
   completename: string
 }
 
-export class GLPIEntity {
-  async entity(credentials: Credentials) {
-    const session = await fetch(`${env.URLGLPI}/initSession`, {
-      method: "POST",
-      headers: {
-        'Content-Type': "application/json",
-        'App-Token': env.APPTOKEN,
-      },
-      body: JSON.stringify({
-        login: credentials.user,
-        password: credentials.password
-      })
-    })
-    
-    const resultSession = await session.json()
+/**
+ * Classe responsável por buscar entidades no GLPI.
+ */
 
+export class GLPIEntity {
+
+   /**
+   * Cria uma instância para consulta de entidades.
+   * @param {GlpiSession} session - Sessão autenticada do GLPI.
+   */
+
+  constructor(private session: GlpiSession) {}
+
+   /**
+   * Busca todas as entidades disponíveis no GLPI.
+   *
+   * @async
+   * @returns {Promise<Data[]>} Lista de entidades retornadas pela API do GLPI.
+   */
+
+  async entity() {
     const result = await fetch(`${env.URLGLPI}/Entity?range=0-9999`, {
       method: "GET",
       headers:  {
         'Content-Type': "application/json",
         'App-Token': env.APPTOKEN,
-        'Session-Token': resultSession.session_token
+        'Session-Token': this.session.getSessionToken()
       }
     })
 
     const data: Data[] = await result.json()
-
-    const removeCommunication = data.filter(value => !value.completename.includes("Comunicação"))
-    const FormatUnits = removeCommunication.map(value => {
-      if(value.name === "Comunicação") {
-        return
-      }
-
-      return {
-        id: value.id,
-        name: value.name,
-        completename: value.completename
-      }
-    })
-    
-    return FormatUnits
+    return data
   }
 }

@@ -57,13 +57,13 @@ export class GlpiCalleds {
    * @returns {Promise<void>}
    */
 
-  public async closeCalled (id: number) {
+  public async calledSolution (id: number) {
     await new Promise(resolve => setTimeout(resolve, 1000))
     const nameUser = this.session.getUser()!.name
 
     const result = await fetch(`${env.URLGLPI}/Ticket/${id}/ITILSolution`, {
       method: "POST",
-       headers:  {
+      headers:  {
         'Content-Type': "application/json",
         'App-Token' : env.APPTOKEN,
         'Session-Token': this.session.getSessionToken()
