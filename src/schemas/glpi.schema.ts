@@ -11,3 +11,6 @@ export const loginSchema = z.object({
 
 export type LoginType = z.infer<typeof loginSchema>
 export type DateType = Omit<LoginType, "user" | "password">
+
+export const sessionLoginShema = loginSchema.omit({ dateInterval: true })
+export type session = z.infer<typeof sessionLoginShema>

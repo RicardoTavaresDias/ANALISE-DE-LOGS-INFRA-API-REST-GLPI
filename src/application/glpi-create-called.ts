@@ -1,5 +1,5 @@
 import { broadcastWss2 } from "@/utils/broadcast-ws"
-import { GlpiBrowser } from "./glpi-session"
+import { GlpiSession } from "./glpi-session"
 import { env } from "@/config/env"
 
 /**
@@ -14,10 +14,10 @@ export class GlpiCreateCalled {
 
     /**
    * Responsável pela criação de chamados no GLPI.
-   * @param {GlpiBrowser} browser - Instância do navegador com sessão ativa no GLPI.
+   * @param {GlpiSession} session - Instância do navegador com sessão ativa no GLPI.
    */
 
-  constructor (private browser: GlpiBrowser) {}
+  constructor (private session: GlpiSession) {}
 
     /**
    * Cria um novo chamado no GLPI.
@@ -35,7 +35,7 @@ export class GlpiCreateCalled {
       headers:  {
         'Content-Type': "application/json",
         'App-Token' : env.APPTOKEN,
-        'Session-Token': this.browser.getSessionToken()
+        'Session-Token': this.session.getSessionToken()
       },
       body: JSON.stringify({
           input: {

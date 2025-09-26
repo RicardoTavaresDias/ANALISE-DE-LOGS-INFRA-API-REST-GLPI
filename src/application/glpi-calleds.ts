@@ -1,5 +1,5 @@
 import { broadcastWss2 } from "@/utils/broadcast-ws"
-import { GlpiBrowser } from "./glpi-session"
+import { GlpiSession } from "./glpi-session"
 import { env } from "@/config/env"
 
 /**
@@ -13,10 +13,10 @@ export class GlpiCalleds {
 
   /**
    * Gerencia operações relacionadas a chamados no GLPI.
-   * @param {GlpiBrowser} browser - Instância do navegador com sessão ativa no GLPI.
+   * @param {GlpiSession} session - Instância do navegador com sessão ativa no GLPI.
    */
 
-  constructor(private browser: GlpiBrowser) {}
+  constructor(private session: GlpiSession) {}
 
   /**
    * Cria uma tarefa em um chamado existente.
@@ -31,13 +31,13 @@ export class GlpiCalleds {
       headers:  {
         'Content-Type': "application/json",
         'App-Token' : env.APPTOKEN,
-        'Session-Token': this.browser.getSessionToken()
+        'Session-Token': this.session.getSessionToken()
       },
       body: JSON.stringify({
         input: {
           tickets_id: idCalled, // numero de chamado
           content: description, // descrição da tarefa do chamado
-          users_id: this.browser.getUser()?.id // user GLPI
+          users_id: this.session.getUser()?.id // user GLPI
         }
       })
     })
@@ -59,14 +59,14 @@ export class GlpiCalleds {
 
   public async closeCalled (id: number) {
     await new Promise(resolve => setTimeout(resolve, 1000))
-    const nameUser = this.browser.getUser()!.name
+    const nameUser = this.session.getUser()!.name
 
     const result = await fetch(`${env.URLGLPI}/Ticket/${id}/ITILSolution`, {
       method: "POST",
        headers:  {
         'Content-Type': "application/json",
         'App-Token' : env.APPTOKEN,
-        'Session-Token': this.browser.getSessionToken()
+        'Session-Token': this.session.getSessionToken()
       },
       body: JSON.stringify({
         input: {

@@ -1,5 +1,5 @@
 import { env } from "@/config/env"
-import { GlpiBrowser } from "./glpi-session"
+import { GlpiSession } from "./glpi-session"
 import { User } from "./interface/ICredentials"
 import { AppError } from "@/utils/AppError"
 
@@ -7,7 +7,7 @@ import { AppError } from "@/utils/AppError"
  * Classe responsável por realizar autenticação no GLPI.
  *
  * - Cria sessão com `initSession`.
- * - Salva o token da sessão no `GlpiBrowser`.
+ * - Salva o token da sessão no `GlpiSession`.
  * - Busca e vincula dados do usuário autenticado.
  */
 
@@ -15,10 +15,10 @@ export class GlpiAuth {
 
     /**
    * Responsável pela autenticação no GLPI e vinculação do usuário à sessão.
-   * @param {GlpiBrowser} browser - Instância do navegador com credenciais e sessão.
+   * @param {GlpiSession} session - Instância do navegador com credenciais e sessão.
    */
 
-  constructor (private browser: GlpiBrowser) {}
+  constructor (private session: GlpiSession) {}
 
    /**
    * Realiza login no GLPI.
@@ -38,11 +38,11 @@ export class GlpiAuth {
       method: "POST",
       headers: {
         'Content-Type': "application/json",
-        'App-Token' : "gPqq4ILNGOyemfNJIuPzy2NfUkmXOAYRcbzB0T1e",
+        'App-Token': env.APPTOKEN,
       },
       body: JSON.stringify({
-        login: this.browser.credentials.user,
-        password: this.browser.credentials.password
+        login: this.session.credentials.user,
+        password: this.session.credentials.password
       })
     })
 
@@ -51,7 +51,7 @@ export class GlpiAuth {
       throw new AppError(data[1], 400)
     }
 
-    this.browser.setSessionToken(data.session_token)
+    this.session.setSessionToken(data.session_token)
     this.User()
   }
 
@@ -69,13 +69,13 @@ export class GlpiAuth {
       headers:  {
         'Content-Type': "application/json",
         'App-Token' : env.APPTOKEN,
-        'Session-Token': this.browser.getSessionToken()
+        'Session-Token': this.session.getSessionToken()
       }
     })
 
     const userFetch = await userResult.json()
-    const userFind = userFetch.find((value: User) => value.name === this.browser.credentials.user)
-    this.browser.setUser({
+    const userFind = userFetch.find((value: User) => value.name === this.session.credentials.user)
+    this.session.setUser({
       id: userFind.id,
       name: userFind.name
     })

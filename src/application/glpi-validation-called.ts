@@ -1,5 +1,5 @@
 import { env } from "@/config/env"
-import { GlpiBrowser } from "./glpi-session"
+import { GlpiSession } from "./glpi-session"
 import { Root } from "./interface/ICredentials"
 import { broadcastWss2 } from "@/utils/broadcast-ws"
 
@@ -16,10 +16,10 @@ export class GlpiValidationCalled {
     /**
    * Responsável por validar a existência de chamados no GLPI
    * dentro de uma data específica.
-   * @param {GlpiBrowser} browser - Instância do navegador com sessão ativa.
+   * @param {GlpiSession} session - Instância do navegador com sessão ativa.
    */
   
-  constructor (private browser: GlpiBrowser) {}
+  constructor (private session: GlpiSession) {}
 
     /**
    * Verifica se já existe chamado para uma data específica.
@@ -47,7 +47,7 @@ export class GlpiValidationCalled {
       headers: {
         'Content-Type': "application/json",
         'App-Token' : env.APPTOKEN,
-        'Session-Token': this.browser.getSessionToken()
+        'Session-Token': this.session.getSessionToken()
       }
     })
 

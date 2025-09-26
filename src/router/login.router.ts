@@ -1,7 +1,8 @@
 import { Router } from "express"
-import { LoginController } from "@/controller/login.controller"
+import { GlpiController } from "@/controller/glpi.controller"
 
-export const loginRouter = Router()
-const loginController = new LoginController()
+export const glpiRouter = Router()
+const glpiController = new GlpiController()
 
-loginRouter.post("/", loginController.session)
+glpiRouter.post("/", glpiController.session)
+glpiRouter.post("/entity", glpiController.entity)

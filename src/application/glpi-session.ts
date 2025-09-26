@@ -9,13 +9,13 @@ import { Credentials, User } from "./interface/ICredentials"
  * - Fornece métodos para recuperar informações da sessão.
  */
 
-export class GlpiBrowser {
+export class GlpiSession {
   public credentials: Credentials
   private sessionToken: string
   private user: User | null = null
 
    /**
-   * Inicializa a instância do GlpiBrowser com as credenciais fornecidas.
+   * Inicializa a instância do GlpiSession com as credenciais fornecidas.
    * @param {Credentials} credentials - Credenciais do usuário para autenticação.
    */
 

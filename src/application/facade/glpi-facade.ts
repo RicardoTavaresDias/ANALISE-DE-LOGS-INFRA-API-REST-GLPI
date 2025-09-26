@@ -1,4 +1,4 @@
-import { GlpiBrowser } from "../glpi-session"
+import { GlpiSession } from "../glpi-session"
 import { GlpiCalleds } from "../glpi-calleds"
 import { GlpiAuth } from "../glpi-auth"
 import { GlpiCreateCalled } from "../glpi-create-called"
@@ -21,7 +21,7 @@ import { Credentials } from "../interface/ICredentials"
  */
 
 export class GlpiFacade {
-  private browser: GlpiBrowser
+  private session: GlpiSession
   private login: GlpiAuth
   private calleds: GlpiCalleds
   private createCalled: GlpiCreateCalled
@@ -34,11 +34,11 @@ export class GlpiFacade {
    */
 
   constructor (credentials: Credentials) {
-    this.browser = new GlpiBrowser(credentials)
-    this.login = new GlpiAuth(this.browser)
-    this.calleds = new GlpiCalleds(this.browser)
-    this.createCalled = new GlpiCreateCalled(this.browser)
-    this.validationCalled = new GlpiValidationCalled(this.browser)
+    this.session = new GlpiSession(credentials)
+    this.login = new GlpiAuth(this.session)
+    this.calleds = new GlpiCalleds(this.session)
+    this.createCalled = new GlpiCreateCalled(this.session)
+    this.validationCalled = new GlpiValidationCalled(this.session)
   }
 
     /**
@@ -95,6 +95,7 @@ export class GlpiFacade {
     }
 
     broadcastWss2("<p>🎉 Processamento de chamados concluído!</p>")
+    return "🎉 Processamento de chamados concluído!"
   }
 
   /**
