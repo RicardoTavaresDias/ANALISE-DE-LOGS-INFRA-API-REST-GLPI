@@ -1,7 +1,7 @@
-import { env } from "@/config/env"
 import { GlpiSession } from "./glpi-session"
 import { Root } from "./interface/ICredentials"
 import { broadcastWss2 } from "@/utils/broadcast-ws"
+import { Http } from "@/utils/Http"
 
 /**
  * Classe responsável por validar existência de chamados
@@ -33,8 +33,9 @@ export class GlpiValidationCalled {
    */
 
   public async existsCalledSpecificDate (day: string): Promise<string[]> {
-    const result =  await fetch(
-      `${env.URLGLPI}/search/Ticket?
+    const http = new Http(this.session.getSessionToken())
+    const response: Root = await http.request({
+      endpoint: `/search/Ticket?
         criteria[0][field]=1&
         criteria[0][searchtype]=contains&
         criteria[0][value]=Verificar backup FTP Servidor&
@@ -42,23 +43,17 @@ export class GlpiValidationCalled {
         criteria[1][field]=26&
         criteria[1][searchtype]=contains&
         criteria[1][value]=${day}
-      `.trim(), {
-      method: "GET",
-      headers: {
-        'Content-Type': "application/json",
-        'App-Token' : env.APPTOKEN,
-        'Session-Token': this.session.getSessionToken()
-      }
+      `.trim(),
+      method: 'GET'
     })
 
-    const data: Root = await result.json()
-    if (Array.isArray(data)) {
-      broadcastWss2(`<p>❌ Erro ao processar: ` + data[1] + "<p>")
+    if (Array.isArray(response)) {
+      broadcastWss2(`<p>❌ Erro ao processar: ` + response[1] + "<p>")
     }
     
-    if (data.count === 0) return []
+    if (response.count === 0) return []
 
-    const idCalledExists = data.data.map((value) => [ String(value["2"]), value["80"].replace("REGIAO SACA > ", "") ]).flat()
+    const idCalledExists = response.data.map((value) => [ String(value["2"]), value["80"].replace("REGIAO SACA > ", "") ]).flat()
     return idCalledExists
   }
 }

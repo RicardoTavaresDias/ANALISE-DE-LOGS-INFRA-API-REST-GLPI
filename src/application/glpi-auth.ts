@@ -1,7 +1,7 @@
-import { env } from "@/config/env"
 import { GlpiSession } from "./glpi-session"
 import { User } from "./interface/ICredentials"
 import { AppError } from "@/utils/AppError"
+import { Http } from "@/utils/Http"
 
 /**
  * Classe responsável por realizar autenticação no GLPI.
@@ -34,26 +34,23 @@ export class GlpiAuth {
    */
 
   public async login (): Promise<void> {
-    const result = await fetch(`${env.URLGLPI}/initSession`, {
-      method: "POST",
-      headers: {
-        'Content-Type': "application/json",
-        'App-Token': env.APPTOKEN,
-      },
-      body: JSON.stringify({
+    const http = new Http(this.session.getSessionToken())
+    const response = await http.request({
+      endpoint: '/initSession',
+      method: 'POST',
+      content: {
         login: this.session.credentials.user,
         password: this.session.credentials.password
-      })
+      }
     })
 
-    const data = await result.json()
-    if (Array.isArray(data)) {
-      throw new AppError(data[1], 400)
+    if (Array.isArray(response)) {
+      throw new AppError(response[1], 400)
     }
 
-    this.session.setSessionToken(data.session_token)
+    this.session.setSessionToken(response.session_token)
     this.User()
-    return data.session_token
+    return response.session_token
   }
 
     /**
@@ -65,16 +62,12 @@ export class GlpiAuth {
    */
 
   private async User () {
-    const userResult = await fetch(`${env.URLGLPI}/user`, {
-      method: "GET",
-      headers:  {
-        'Content-Type': "application/json",
-        'App-Token' : env.APPTOKEN,
-        'Session-Token': this.session.getSessionToken()
-      }
+    const http = new Http(this.session.getSessionToken())
+    const userFetch = await http.request({
+      endpoint: '/user',
+      method: 'GET',
     })
 
-    const userFetch = await userResult.json()
     const userFind = userFetch.find((value: User) => value.name === this.session.credentials.user)
     this.session.setUser({
       id: userFind.id,

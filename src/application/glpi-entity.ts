@@ -1,5 +1,5 @@
-import { env } from "@/config/env";
 import { GlpiSession } from "./glpi-session";
+import { Http } from "@/utils/Http";
 
 /**
  * Representa os dados de uma entidade no GLPI.
@@ -33,16 +33,12 @@ export class GLPIEntity {
    */
 
   async entity() {
-    const result = await fetch(`${env.URLGLPI}/Entity?range=0-9999`, {
-      method: "GET",
-      headers:  {
-        'Content-Type': "application/json",
-        'App-Token': env.APPTOKEN,
-        'Session-Token': this.session.getSessionToken()
-      }
+    const http = new Http(this.session.getSessionToken())
+    const response: Data[] = await http.request({
+      endpoint: `/Entity?range=0-9999`,
+      method: 'GET'
     })
 
-    const data: Data[] = await result.json()
-    return data
+    return response 
   }
 }

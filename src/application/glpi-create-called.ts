@@ -1,6 +1,6 @@
 import { broadcastWss2 } from "@/utils/broadcast-ws"
 import { GlpiSession } from "./glpi-session"
-import { env } from "@/config/env"
+import { Http } from "@/utils/Http"
 
 /**
  * Classe responsável por criar novos chamados no GLPI.
@@ -31,15 +31,12 @@ export class GlpiCreateCalled {
    */
 
   public async newCalled (IdUnit: number) {
-    const result = await fetch(`${env.URLGLPI}/Ticket`, {
-      method: "POST",
-      headers:  {
-        'Content-Type': "application/json",
-        'App-Token' : env.APPTOKEN,
-        'Session-Token': this.session.getSessionToken()
-      },
-      body: JSON.stringify({
-          input: {
+    const http = new Http(this.session.getSessionToken())
+    const response = await http.request({
+      endpoint: `/Ticket`,
+      method: 'POST',
+      content: {
+        input: {
           entities_id: IdUnit, // ID do unidade
           itilcategories_id: 2, // Acompanhamento Diario Rotina de Backup
           type: 2,  // Requisição
@@ -52,18 +49,17 @@ export class GlpiCreateCalled {
           _users_id_assign: 0,  //  ATOR Atribuído Usuario
           _groups_id_assign: 1, //  ATOR Atribuído grupo
         }
-      })
+      }
     })
 
-    const data = await result.json()
-    if (Array.isArray(data)) {
-      broadcastWss2(`<p>❌ Erro ao processar: ` + data[1] + "<p>")
+    if (Array.isArray(response)) {
+      broadcastWss2(`<p>❌ Erro ao processar: ` + response[1] + "<p>")
     }
 
-    broadcastWss2('<p style="color: #f59e0b">Chamado criado ' + data.id + "</p>")
-    this.groupObserver(data.id)
+    broadcastWss2('<p style="color: #f59e0b">Chamado criado ' + response.id + "</p>")
+    this.groupObserver(response.id)
 
-    return data.id
+    return response.id
   }
 
    /**
@@ -74,20 +70,17 @@ export class GlpiCreateCalled {
    */
 
   async groupObserver (id: number) {
-    return await fetch(`${env.URLGLPI}/Ticket/${id}/Group_Ticket`, {
-      method: "POST",
-      headers:  {
-        'Content-Type': "application/json",
-        'App-Token' : env.APPTOKEN,
-        'Session-Token': this.session.getSessionToken()
-      },
-      body: JSON.stringify({
+    const http = new Http(this.session.getSessionToken())
+    return await http.request({
+      endpoint: `/Ticket/${id}/Group_Ticket`,
+      method: 'POST',
+      content: {
         input: {
           tickets_id: id,
           groups_id: 4,
           type: 3
         }
-      })
+      }
     })
   }
 }

@@ -1,6 +1,6 @@
 import { broadcastWss2 } from "@/utils/broadcast-ws"
 import { GlpiSession } from "./glpi-session"
-import { env } from "@/config/env"
+import { Http } from "@/utils/Http"
 
 /**
  * Classe responsável por manipular chamados no GLPI.
@@ -26,25 +26,21 @@ export class GlpiCalleds {
    */
 
   public async taskCalled (idCalled: string, description: string) {
-    const result = await fetch(`${env.URLGLPI}/TicketTask`, {
-      method: "POST",
-      headers:  {
-        'Content-Type': "application/json",
-        'App-Token' : env.APPTOKEN,
-        'Session-Token': this.session.getSessionToken()
-      },
-      body: JSON.stringify({
+    const http = new Http(this.session.getSessionToken())
+    const response = await http.request({
+      endpoint: `/TicketTask`,
+      method: 'POST',
+      content: {
         input: {
           tickets_id: idCalled, // numero de chamado
           content: description, // descrição da tarefa do chamado
           users_id: this.session.getUser()?.id // user GLPI
         }
-      })
+      }
     })
 
-    const data = await result.json()
-    if (Array.isArray(data)) {
-      broadcastWss2(`<p>❌ Erro ao processar: ` + data[1] + "<p>")
+    if (Array.isArray(response)) {
+      broadcastWss2(`<p>❌ Erro ao processar: ` + response[1] + "<p>")
     }
   }
 
@@ -61,26 +57,22 @@ export class GlpiCalleds {
     await new Promise(resolve => setTimeout(resolve, 1000))
     const nameUser = this.session.getUser()!.name
 
-    const result = await fetch(`${env.URLGLPI}/Ticket/${id}/ITILSolution`, {
-      method: "POST",
-      headers:  {
-        'Content-Type': "application/json",
-        'App-Token' : env.APPTOKEN,
-        'Session-Token': this.session.getSessionToken()
-      },
-      body: JSON.stringify({
+    const http = new Http(this.session.getSessionToken())
+    const response = await http.request({
+      endpoint: `/Ticket/${id}/ITILSolution`,
+      method: 'POST',
+      content: {
         input: {
           items_id:  id,
           itemtype: "Ticket",
           status: 1,
           content: nameUser?.charAt(0).toUpperCase() + nameUser.slice(1)
         }
-      })
+      }
     })
 
-    const data = await result.json()
-    if (Array.isArray(data)) {
-      broadcastWss2(`<p>❌ Erro ao processar: ` + data[1] + "<p>")
+    if (Array.isArray(response)) {
+      broadcastWss2(`<p>❌ Erro ao processar: ` + response[1] + "<p>")
     }
   }
 }
