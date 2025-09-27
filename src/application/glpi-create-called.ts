@@ -21,9 +21,10 @@ export class GlpiCreateCalled {
 
     /**
    * Cria um novo chamado no GLPI.
-   * - Associa o chamado a uma unidade específica.
+   * - Associa o chamado a uma unidade específica (entity).
    * - Define categoria, tipo e atores responsáveis.
-   * - Notifica via WebSocket a criação.
+   * - Adiciona um grupo como observador do chamado.
+   * - Notifica via WebSocket o resultado da operação.
    *
    * @param {number} IdUnit - ID da unidade (entity) no GLPI.
    * @returns {Promise<number>} - ID do chamado criado.
@@ -47,8 +48,9 @@ export class GlpiCreateCalled {
           name: "Verificar backup FTP Servidor", // Titulo do chamado
           content: "Validar a conexão do FTP e evidenciar.", // descrição do chamado
           _users_id_requester: 0, // ATOR Requerente
+          _groups_id_requester: 4, // ATOR Requerente grupo
           _users_id_assign: 0,  //  ATOR Atribuído Usuario
-          _groups_id_assign: 1 //  ATOR Atribuído grupo
+          _groups_id_assign: 1, //  ATOR Atribuído grupo
         }
       })
     })
@@ -59,6 +61,37 @@ export class GlpiCreateCalled {
     }
 
     broadcastWss2('<p style="color: #f59e0b">Chamado criado ' + data.id + "</p>")
+    this.groupObserver(data.id)
+
     return data.id
   }
+
+   /**
+   * Adiciona um grupo como observador de um chamado existente no GLPI.
+   *
+   * @param {number} id - ID do chamado no GLPI.
+   * @returns {Promise<Response>} - Resposta da API GLPI.
+   */
+
+  async groupObserver (id: number) {
+    return await fetch(`${env.URLGLPI}/Ticket/${id}/Group_Ticket`, {
+      method: "POST",
+      headers:  {
+        'Content-Type': "application/json",
+        'App-Token' : env.APPTOKEN,
+        'Session-Token': this.session.getSessionToken()
+      },
+      body: JSON.stringify({
+        input: {
+          tickets_id: id,
+          groups_id: 4,
+          type: 3
+        }
+      })
+    })
+  }
 }
+
+// Requerente => type: 1
+// Observador => type: 3
+// Atribuido => type: 2
