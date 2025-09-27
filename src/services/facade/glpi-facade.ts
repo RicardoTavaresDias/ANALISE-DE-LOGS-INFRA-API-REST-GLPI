@@ -137,8 +137,8 @@ export class GlpiFacade {
 
     const formattedUnits = uniqueUnitsToHtml(this.arrayCalledsExists)
     broadcastWss2(`
-      <p>Existem chamados já registrados dentro do intervalo informado:</p
-      <p style="color: #f8fafc">${formattedUnits.join("")}</p>
+      <p>Existem chamados já registrados dentro do intervalo informado:</p>
+      <p style="color: #1da5c2">${formattedUnits.join("")}</p>
     `.trim())
 
     const resultValidation = await validationCalledExists(formattedUnits)
