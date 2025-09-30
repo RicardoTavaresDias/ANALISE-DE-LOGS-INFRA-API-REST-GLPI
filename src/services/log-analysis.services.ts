@@ -1,67 +1,129 @@
 import regex from "@/lib/regex"
 
+interface State {
+  isBlocked: boolean
+  hasError: boolean
+}
+
+type CacheKey = "currentBlock" | "allLogs" | "errorBuffer"
+type CacheMap = Map<CacheKey, string[]>
+
 /**
- * Filtra e estrutura apenas os trechos de log com possíveis erros.
- * 
- * @param {string[]} textFile - Linhas do arquivo de log
- * @returns {string[]} Lista de trechos de log contendo erros
+ * Formata uma linha de log adicionando quebra de linha no início.
+ * @param line Linha original
+ * @returns Linha formatada
+ */
+
+function formatLine (line: string) {
+  return `\n${line}`
+} 
+
+/**
+ * Processa cabeçalho do log: início de backup, execução de tarefa ou intervalo de blocos.
+ * @param line Linha do log
+ * @param cache Estrutura de cache
+ * @param state Estado atual
+ */
+
+function headerLog (line: string, cache: CacheMap, state: State): void {
+  if (regex.BackupStart.test(line)) {
+    getCache(cache, "currentBlock").push(
+      "\n###\n",
+      "<br><br>-------------------------INTERVALO---------------------------------<br>\n",
+      formatLine(line)
+    )
+    state.isBlocked = true
+    return
+  } 
+
+  if (regex.TaskRunning.test(line)) {
+    getCache(cache, "currentBlock").push(formatLine(line))
+    getCache(cache, "allLogs").push(...getCache(cache, "currentBlock"))
+    cache.set("currentBlock", [])
+    state.isBlocked = false
+  } 
+
+  if (state.isBlocked) {
+    getCache(cache, "currentBlock").push(formatLine(line))
+  } 
+}
+
+/**
+ * Processa erros detectados no log e os adiciona no buffer de erros ou nos logs finais.
+ * @param line Linha do log
+ * @param cache Estrutura de cache
+ * @param state Estado atual
+ */
+
+function bodyErrorLog (line: string, cache: CacheMap, state: State): void {
+  if (regex.BackupError.test(line)) {
+    getCache(cache, "errorBuffer").push(formatLine("<b>" + line + "</b>"))
+  } 
+
+  if (regex.AfterError.test(line)) {
+    if (getCache(cache, "errorBuffer").length > 150) {
+      getCache(cache, "errorBuffer").length = 0
+      getCache(cache, "allLogs").push(formatLine('<br><b style="color: red;">ERR - Em todo arquivo....</b><br>'))
+    } else {
+      getCache(cache, "allLogs").push(...getCache(cache, "errorBuffer"))
+    }
+    
+    getCache(cache, "allLogs").push(formatLine(line))
+    state.hasError = true
+  }
+}
+
+/**
+ * Processa rodapé do log, detectando final de backup.
+ * @param line Linha do log
+ * @param cache Estrutura de cache
+ * @param state Estado atual
+ */
+
+function footerLog (line: string, cache: CacheMap, state: State): void {
+  if (regex.BackupFinish.test(line)) {
+    getCache(cache, "allLogs").push(formatLine(line))
+    state.hasError = false
+  } 
+}
+
+/**
+ * Recupera um array do cache ou inicializa se não existir.
+ * @param cache Estrutura de cache
+ * @param key Chave de cache
+ * @returns Array associado à chave
+ */
+
+function getCache (cache: CacheMap, key: CacheKey): string[] {
+  if(!cache.has(key)) {
+    cache.set(key, [])
+  }
+  
+  return cache.get(key)!
+}
+
+/**
+ * Função principal que percorre o arquivo de log e retorna os logs formatados.
+ * @param textFile Array de linhas do log
+ * @returns Lista de logs processados
  */
 
 export function parseLogs (textFile: string[]): string[] {
-  let arrayLogs: string[] = []
-  let arrayLogsError: string[] = []
-  let errorLarge: string[] = []
-
-  let isBlocked: boolean = false
-  let hasError: boolean = false
-
-  const formatLine = (line: string) => `\n${line}`
+  const state: State = { isBlocked: false, hasError: false }
+  const cache: CacheMap = new Map()
 
   for (const line of textFile) {
+    headerLog(line, cache, state)
 
-    if (regex.BackupStart.test(line)) {
-      arrayLogs.push("\n###\n")
-      arrayLogs.push("<br><br>-------------------------INTERVALO---------------------------------<br>\n")
-      arrayLogs.push(formatLine(line))
-      isBlocked = true
-
-    } else if (regex.TaskRunning.test(line)) {
-      arrayLogs.push(formatLine(line))
-      arrayLogsError.push(...arrayLogs)
-      arrayLogs.length = 0
-      isBlocked = false
-
-    } else if (isBlocked) {
-      arrayLogs.push(formatLine(line))
-
-    } else if (regex.BackupError.test(line)) {
-      errorLarge.push(formatLine("<b>" + line + "</b>"))
-
-    } else if (regex.AfterError.test(line)) {
-      if (errorLarge.length > 2000) {
-        errorLarge = []
-        arrayLogsError.push(formatLine('<br><b style="color: red;">ERR - Em todo arquivo....</b><br>'))
-
-      } else {
-        arrayLogsError.push(...errorLarge)
-      }
-      
-      arrayLogsError.push(formatLine(line))
-      hasError = true
-
-    } else if (regex.BackupFinish.test(line)) {
-      arrayLogsError.push(formatLine(line))
-      hasError = false
-
-    } else if (hasError) {
-      arrayLogsError.push(formatLine(line)) 
+    if (state.hasError) {
+      getCache(cache, "allLogs").push(formatLine(line)) 
     }
+
+    bodyErrorLog(line, cache, state)
+    footerLog(line, cache, state)
   }
-  const result = [...arrayLogsError]
-  arrayLogsError.length = 0
-  arrayLogs.length = 0
-  errorLarge.length = 0
-  return result
+
+  return [...getCache(cache, "allLogs")]
 }
 
 /**
