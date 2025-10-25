@@ -51,6 +51,7 @@ export class GlpiFacade {
 
   public async processCalleds(dataInterval: DateType) {
     await this.login.login()
+    await this.login.user()
     await this.validationCalledWeek(dataInterval)
 
     const calledsExists = await this.checkCalledValidation()

@@ -1,43 +1,267 @@
-  { id: "129", name: "AMA Especialidades Vila Constância - Dr. Vicente Octavio Guida" },
-  { id: "130", name: "AMA/UBS Jardim Miriam I - Manoel Soares de Oliveira" },
-  { id: "131", name: "AMA/UBS Vila Império I" },
-  { id: "132", name: "AMA/UBS Vila Joaniza - João Yunes" },
-  { id: "133", name: "AMA/UBS Vila Missionária" },
-  { id: "134", name: "APD Santo Amaro" },
-  { id: "135", name: "CAPS AD II - Cidade Ademar" },
-  { id: "136", name: "CAPS Adulto II - Cidade Ademar" },
-  { id: "137", name: "CAPS III Adulto Largo 13" },
-  { id: "138", name: "CAPS Infanto Juvenil II Cidade Ademar" },
-  { id: "139", name: "CAPS Infanto Juvenil II Santo Amaro" },
-  { id: "140", name: "CEO ll LRPD - Dr. Humberto Nastari" },
-  { id: "141", name: "CER III - Cidade Ademar" },
-  { id: "143", name: "Hospital das Clínicas" },
-  { id: "144", name: "Hospital Dia Cidade Ademar" },
-  { id: "147", name: "Serviço de Assistência Domiciliar - Cidade Ademar" },
-  { id: "154", name: "UBS Campo Grande" },
-  { id: "155", name: "UBS Chácara Santo Antônio - Dr. Marcílio de Arruda Penteado" },
-  { id: "156", name: "UBS Integral Jardim Miriam II" },
-  { id: "157", name: "UBS Jardim Aeroporto - Dr. Massaki Udihara" },
-  { id: "158", name: "UBS Jardim Umuarama" },
-  { id: "159", name: "UBS Parque Dorotéia" },
-  { id: "210", name: "UBS Parque dos Búfalos" },
-  { id: "160", name: "UBS Santo Amaro - Dr. Sergio Villaca Braga" },
-  { id: "161", name: "UBS Vila Arriete - Dr. Decio Pcheco Pedroso" },
-  { id: "162", name: "UBS Vila Constância - Dr. Vicente Octavio Guida" },
-  { id: "163", name: "UBS/ESF Cidade Júlia" },
-  { id: "164", name: "UBS/ESF Jardim Apurá" },
-  { id: "165", name: "UBS/ESF Jardim Niterói" },
-  { id: "166", name: "UBS/ESF Jardim Novo Pantanal" },
-  { id: "167", name: "UBS/ESF Jardim São Carlos" },
-  { id: "168", name: "UBS/ESF Jardim Selma" },
-  { id: "169", name: "UBS/ESF Laranjeiras" },
-  { id: "170", name: "UBS/ESF Mar Paulista" },
-  { id: "171", name: "UBS/ESF Mata Virgem" },
-  { id: "172", name: "UBS/ESF São Jorge" },
-  { id: "173", name: "UBS/ESF Vila Aparecida" },
-  { id: "174", name: "UBS/ESF Vila Guacuri - Cicero Sergio Cavalcante" },
-  { id: "175", name: "UBS/ESF Vila Império II - Dra. Gilda Tera Tahira" },
-  { id: "128", name: "UPA 24hs Pq. Doroteia" },
-  { id: "176", name: "UPA Pedreira - Dr. Cesar Antunes da Rocha" },
-  { id: "177", name: "UPA Santo Amaro - Dr. Jose Sylvio de Camargo" },
-  { id: "178", name: "URSI - Cidade Ademar" }
+[
+	{
+		"id": 0,
+		"name": "INTS",
+		"completename": "INTS"
+	},
+	{
+		"id": 21,
+		"name": "REGIAO SACA",
+		"completename": "INTS > REGIAO SACA"
+	},
+	{
+		"id": 243,
+		"name": "UPA 24hs Pq. Doroteia",
+		"completename": "INTS > REGIAO SACA > UPA 24hs Pq. Doroteia"
+	},
+	{
+		"id": 244,
+		"name": "AMA Especialidades Vila Constância - Dr. Vicente Octavio Guida",
+		"completename": "INTS > REGIAO SACA > AMA Especialidades Vila Constância - Dr. Vicente Octavio Guida"
+	},
+	{
+		"id": 245,
+		"name": "AMA/UBS Jardim Miriam I - Manoel Soares de Oliveira",
+		"completename": "INTS > REGIAO SACA > AMA/UBS Jardim Miriam I - Manoel Soares de Oliveira"
+	},
+	{
+		"id": 246,
+		"name": "AMA/UBS Vila Império I",
+		"completename": "INTS > REGIAO SACA > AMA/UBS Vila Império I"
+	},
+	{
+		"id": 247,
+		"name": "AMA/UBS Vila Joaniza - João Yunes",
+		"completename": "INTS > REGIAO SACA > AMA/UBS Vila Joaniza - João Yunes"
+	},
+	{
+		"id": 248,
+		"name": "AMA/UBS Vila Missionária",
+		"completename": "INTS > REGIAO SACA > AMA/UBS Vila Missionária"
+	},
+	{
+		"id": 249,
+		"name": "APD Santo Amaro",
+		"completename": "INTS > REGIAO SACA > APD Santo Amaro"
+	},
+	{
+		"id": 250,
+		"name": "CAPS AD II - Cidade Ademar",
+		"completename": "INTS > REGIAO SACA > CAPS AD II - Cidade Ademar"
+	},
+	{
+		"id": 251,
+		"name": "CAPS III Adulto Largo 13",
+		"completename": "INTS > REGIAO SACA > CAPS III Adulto Largo 13"
+	},
+	{
+		"id": 252,
+		"name": "CAPS Adulto II - Cidade Ademar",
+		"completename": "INTS > REGIAO SACA > CAPS Adulto II - Cidade Ademar"
+	},
+	{
+		"id": 253,
+		"name": "CAPS Infanto Juvenil II Cidade Ademar",
+		"completename": "INTS > REGIAO SACA > CAPS Infanto Juvenil II Cidade Ademar"
+	},
+	{
+		"id": 254,
+		"name": "CAPS Infanto Juvenil II Santo Amaro",
+		"completename": "INTS > REGIAO SACA > CAPS Infanto Juvenil II Santo Amaro"
+	},
+	{
+		"id": 255,
+		"name": "CEO ll LRPD - Dr. Humberto Nastari",
+		"completename": "INTS > REGIAO SACA > CEO ll LRPD - Dr. Humberto Nastari"
+	},
+	{
+		"id": 256,
+		"name": "CER III - Cidade Ademar",
+		"completename": "INTS > REGIAO SACA > CER III - Cidade Ademar"
+	},
+	{
+		"id": 257,
+		"name": "Coordenação",
+		"completename": "INTS > REGIAO SACA > Coordenação"
+	},
+	{
+		"id": 258,
+		"name": "Hospital das Clínicas",
+		"completename": "INTS > REGIAO SACA > Hospital das Clínicas"
+	},
+	{
+		"id": 259,
+		"name": "Hospital Dia Cidade Ademar",
+		"completename": "INTS > REGIAO SACA > Hospital Dia Cidade Ademar"
+	},
+	{
+		"id": 260,
+		"name": "Hospital Dia Santo Amaro",
+		"completename": "INTS > REGIAO SACA > Hospital Dia Santo Amaro"
+	},
+	{
+		"id": 263,
+		"name": "Serviço de Assistência Domiciliar - Cidade Ademar",
+		"completename": "INTS > REGIAO SACA > Serviço de Assistência Domiciliar - Cidade Ademar"
+	},
+	{
+		"id": 264,
+		"name": "SRT  Santo Amaro III",
+		"completename": "INTS > REGIAO SACA > SRT  Santo Amaro III"
+	},
+	{
+		"id": 265,
+		"name": "SRT Cidade Ademar I",
+		"completename": "INTS > REGIAO SACA > SRT Cidade Ademar I"
+	},
+	{
+		"id": 266,
+		"name": "SRT Cidade Ademar II",
+		"completename": "INTS > REGIAO SACA > SRT Cidade Ademar II"
+	},
+	{
+		"id": 267,
+		"name": "SRT Santo Amaro I",
+		"completename": "INTS > REGIAO SACA > SRT Santo Amaro I"
+	},
+	{
+		"id": 268,
+		"name": "SRT Santo Amaro II",
+		"completename": "INTS > REGIAO SACA > SRT Santo Amaro II"
+	},
+	{
+		"id": 269,
+		"name": "UBS Campo Grande",
+		"completename": "INTS > REGIAO SACA > UBS Campo Grande"
+	},
+	{
+		"id": 270,
+		"name": "UBS Chácara Santo Antônio - Dr. Marcílio de Arruda Penteado",
+		"completename": "INTS > REGIAO SACA > UBS Chácara Santo Antônio - Dr. Marcílio de Arruda Penteado"
+	},
+	{
+		"id": 271,
+		"name": "UBS Integral Jardim Miriam II",
+		"completename": "INTS > REGIAO SACA > UBS Integral Jardim Miriam II"
+	},
+	{
+		"id": 272,
+		"name": "UBS Jardim Aeroporto - Dr. Massaki Udihara",
+		"completename": "INTS > REGIAO SACA > UBS Jardim Aeroporto - Dr. Massaki Udihara"
+	},
+	{
+		"id": 273,
+		"name": "UBS Jardim Umuarama",
+		"completename": "INTS > REGIAO SACA > UBS Jardim Umuarama"
+	},
+	{
+		"id": 274,
+		"name": "UBS Parque Dorotéia",
+		"completename": "INTS > REGIAO SACA > UBS Parque Dorotéia"
+	},
+	{
+		"id": 275,
+		"name": "UBS Santo Amaro - Dr. Sergio Villaca Braga",
+		"completename": "INTS > REGIAO SACA > UBS Santo Amaro - Dr. Sergio Villaca Braga"
+	},
+	{
+		"id": 276,
+		"name": "UBS Vila Arriete - Dr. Decio Pcheco Pedroso",
+		"completename": "INTS > REGIAO SACA > UBS Vila Arriete - Dr. Decio Pcheco Pedroso"
+	},
+	{
+		"id": 277,
+		"name": "UBS Vila Constância - Dr. Vicente Octavio Guida",
+		"completename": "INTS > REGIAO SACA > UBS Vila Constância - Dr. Vicente Octavio Guida"
+	},
+	{
+		"id": 278,
+		"name": "UBS/ESF Cidade Júlia",
+		"completename": "INTS > REGIAO SACA > UBS/ESF Cidade Júlia"
+	},
+	{
+		"id": 279,
+		"name": "UBS/ESF Jardim Apurá",
+		"completename": "INTS > REGIAO SACA > UBS/ESF Jardim Apurá"
+	},
+	{
+		"id": 280,
+		"name": "UBS/ESF Jardim Niterói",
+		"completename": "INTS > REGIAO SACA > UBS/ESF Jardim Niterói"
+	},
+	{
+		"id": 281,
+		"name": "UBS Jardim Novo Pantanal - Otacílio Madeira",
+		"completename": "INTS > REGIAO SACA > UBS Jardim Novo Pantanal - Otacílio Madeira"
+	},
+	{
+		"id": 282,
+		"name": "UBS/ESF Jardim São Carlos",
+		"completename": "INTS > REGIAO SACA > UBS/ESF Jardim São Carlos"
+	},
+	{
+		"id": 283,
+		"name": "UBS/ESF Jardim Selma",
+		"completename": "INTS > REGIAO SACA > UBS/ESF Jardim Selma"
+	},
+	{
+		"id": 284,
+		"name": "UBS/ESF Laranjeiras",
+		"completename": "INTS > REGIAO SACA > UBS/ESF Laranjeiras"
+	},
+	{
+		"id": 285,
+		"name": "UBS/ESF Mar Paulista",
+		"completename": "INTS > REGIAO SACA > UBS/ESF Mar Paulista"
+	},
+	{
+		"id": 286,
+		"name": "UBS/ESF Mata Virgem",
+		"completename": "INTS > REGIAO SACA > UBS/ESF Mata Virgem"
+	},
+	{
+		"id": 287,
+		"name": "UBS/ESF São Jorge",
+		"completename": "INTS > REGIAO SACA > UBS/ESF São Jorge"
+	},
+	{
+		"id": 288,
+		"name": "UBS/ESF Vila Aparecida",
+		"completename": "INTS > REGIAO SACA > UBS/ESF Vila Aparecida"
+	},
+	{
+		"id": 289,
+		"name": "UBS/ESF Vila Guacuri - Cicero Sergio Cavalcante",
+		"completename": "INTS > REGIAO SACA > UBS/ESF Vila Guacuri - Cicero Sergio Cavalcante"
+	},
+	{
+		"id": 290,
+		"name": "UBS/ESF Vila Império II - Dra. Gilda Tera Tahira",
+		"completename": "INTS > REGIAO SACA > UBS/ESF Vila Império II - Dra. Gilda Tera Tahira"
+	},
+	{
+		"id": 291,
+		"name": "UPA Pedreira - Dr. Cesar Antunes da Rocha",
+		"completename": "INTS > REGIAO SACA > UPA Pedreira - Dr. Cesar Antunes da Rocha"
+	},
+	{
+		"id": 292,
+		"name": "UPA Santo Amaro - Dr. Jose Sylvio de Camargo",
+		"completename": "INTS > REGIAO SACA > UPA Santo Amaro - Dr. Jose Sylvio de Camargo"
+	},
+	{
+		"id": 293,
+		"name": "URSI - Cidade Ademar",
+		"completename": "INTS > REGIAO SACA > URSI - Cidade Ademar"
+	},
+	{
+		"id": 365,
+		"name": "UBS Parque dos Búfalos",
+		"completename": "INTS > REGIAO SACA > UBS Parque dos Búfalos"
+	},
+	{
+		"id": 541,
+		"name": "Departamento Pessoal",
+		"completename": "INTS > REGIAO SACA > Hospital Dia Santo Amaro > Departamento Pessoal"
+	}
+]

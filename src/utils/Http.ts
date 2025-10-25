@@ -1,4 +1,5 @@
 import { env } from "@/config/env"
+import { AppError } from "./AppError"
 
 /**
  * Interface que define os parâmetros para uma requisição HTTP.
@@ -34,17 +35,26 @@ export class Http {
    */
 
   async request ({ endpoint, method, content }: IHttp) {
-    const response = await fetch(`${env.URLGLPI}${endpoint}`, {
-      method: method,
-      headers: {
-        'Content-Type': "application/json",
-        'App-Token' : env.APPTOKEN,
-        'Session-Token': this.session
-      },
-      body: content ? JSON.stringify(content) : undefined
-    })
+    try {
+      const response = await fetch(`${env.URLGLPI}${endpoint}`, {
+        method: method,
+        headers: {
+          'Content-Type': "application/json",
+          'App-Token' : env.APPTOKEN,
+          'Session-Token': this.session
+        },
+  
+        body: content ? JSON.stringify(content) : undefined
+      })
 
-    const result = await response.json()
-    return result
+      const result = await response.json()
+      return result
+    } catch (error: any) {
+      if (error.name === 'FetchError') {
+        throw new AppError('Falha na comunicação com o GLPI — verifique o servidor ou certificado SSL.', 503);
+      }
+
+      throw new AppError(`Erro inesperado na integração com o GLPI: ${error.message}`, 500)
+    }
   }
 }

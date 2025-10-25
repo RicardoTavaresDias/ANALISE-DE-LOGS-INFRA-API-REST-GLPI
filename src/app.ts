@@ -10,4 +10,7 @@ app.use(express.json())
 app.use(router)
 app.use(ErrorHandling)
 
+// Desativar verificação SSL globalmente
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
 setupSwagger(app)

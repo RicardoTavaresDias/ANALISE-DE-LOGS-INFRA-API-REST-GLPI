@@ -40,7 +40,8 @@ export class GlpiAuth {
       method: 'POST',
       content: {
         login: this.session.credentials.user,
-        password: this.session.credentials.password
+        password: this.session.credentials.password,
+        auth: "ldap-22"
       }
     })
 
@@ -49,7 +50,6 @@ export class GlpiAuth {
     }
 
     this.session.setSessionToken(response.session_token)
-    this.User()
     return response.session_token
   }
 
@@ -61,7 +61,7 @@ export class GlpiAuth {
    * @returns {Promise<void>}
    */
 
-  private async User () {
+  public async user () {
     const http = new Http(this.session.getSessionToken())
     const userFetch = await http.request({
       endpoint: '/user',
