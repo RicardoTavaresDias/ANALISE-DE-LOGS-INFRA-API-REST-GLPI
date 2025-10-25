@@ -9,6 +9,7 @@ import { broadcastWss2 } from "@/utils/broadcast-ws"
 import { GlpiValidationCalled } from "@/application/glpi-validation-called"
 import { DateType } from "@/schemas/log-analysis.schema"
 import { Credentials } from "@/application/interface/ICredentials"
+import { groupsCreateCalled } from "@/utils/refature-group-create-calleds"
 
 /**
  * Classe responsável por orquestrar todas as operações de chamados no GLPI.
@@ -41,12 +42,18 @@ export class GlpiFacade {
     this.validationCalled = new GlpiValidationCalled(this.session)
   }
 
-    /**
+   /**
    * Processa a abertura de chamados para um intervalo de datas.
+   *
    * - Valida chamados existentes.
    * - Cria novos chamados quando necessário.
-   * - Tramita tarefas e fecha chamados quando apropriado.
-   * @param {DateType} dataInterval - Intervalo de datas para processamento.
+   * - Insere tarefas e fecha chamados conforme a necessidade.
+   * - Remove pastas temporárias após o processamento.
+   *
+   * @async
+   * @param {DateType} dataInterval - Intervalo de datas a ser processado.
+   * @returns {Promise<string>} - Mensagem final indicando o término do processamento.
+   * @throws {AppError} - Lançado em caso de falha ao processar uma unidade.
    */
 
   public async processCalleds(dataInterval: DateType) {
@@ -71,7 +78,9 @@ export class GlpiFacade {
      
       try {
         // Criar chamado
-        const IdCalledCreate = await this.createCalled.newCalled(standardizationUnits[unit.toLowerCase()].id)
+        const group = await this.createCalled.listGroupAtor()
+        const resultGroup = groupsCreateCalled(group)
+        const IdCalledCreate = await this.createCalled.newCalled(standardizationUnits[unit.toLowerCase()].id, resultGroup)
         
         // Agrupa todos os logs refaturado com sucess e error
         const responseUnits = await readTaskCalled(unit)
