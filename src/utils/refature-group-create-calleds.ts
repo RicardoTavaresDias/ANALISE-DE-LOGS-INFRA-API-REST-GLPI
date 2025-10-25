@@ -60,14 +60,14 @@ export type responseGroup = {
  * @returns {responseGroup} - Objeto contendo os grupos de infraestrutura e unidade.
  */
 
-export function groupsCreateCalled (data: DataGroup[]): responseGroup {
+export function groupsCreateCalled (data: DataGroup[], unitName: string): responseGroup {
   const groupObserver = data.map(value => ({
     id: value.id,
     name: value.name
   }))
 
   const infra = groupObserver.find(value => value.name.includes('Infraestrutura T.I'))!
-  const unit = groupObserver.find(value => value.name.includes('UBS/ESF Vila Aparecida'))!
+  const unit = groupObserver.find(value => value.name.includes(unitName))!
 
   return {
     infra,

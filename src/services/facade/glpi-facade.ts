@@ -79,7 +79,7 @@ export class GlpiFacade {
       try {
         // Criar chamado
         const group = await this.createCalled.listGroupAtor()
-        const resultGroup = groupsCreateCalled(group)
+        const resultGroup = groupsCreateCalled(group, unit)
         const IdCalledCreate = await this.createCalled.newCalled(standardizationUnits[unit.toLowerCase()].id, resultGroup)
         
         // Agrupa todos os logs refaturado com sucess e error

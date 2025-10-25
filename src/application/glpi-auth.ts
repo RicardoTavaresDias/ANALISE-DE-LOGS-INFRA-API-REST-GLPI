@@ -48,7 +48,7 @@ export class GlpiAuth {
     if (Array.isArray(response)) {
       throw new AppError(response[1], 400)
     }
-
+    
     this.session.setSessionToken(response.session_token)
     return response.session_token
   }
@@ -64,7 +64,7 @@ export class GlpiAuth {
   public async user () {
     const http = new Http(this.session.getSessionToken())
     const userFetch = await http.request({
-      endpoint: '/user',
+      endpoint: '/user?range=0-9999',
       method: 'GET',
     })
 
