@@ -43,4 +43,24 @@ No Intervalo de endereço IPv4
 
 `Se o servidor tem mudança de ip, configurar seguinte range de ip`
 
-- 1.0.0.0 - 255.255.255.255
+- Deixar os dois campos vazios, no campo intervalo de endereço IPV4
+
+### Intalação PKG
+
+````
+npm install -g pkg
+````
+
+verificar se o mesmo foi instalado
+
+````
+pkg --version
+````
+
+Executar para gerar exe
+
+````
+npm run pack
+````
+
+`OBS:` vscode tem que executar como administrador da maquina
