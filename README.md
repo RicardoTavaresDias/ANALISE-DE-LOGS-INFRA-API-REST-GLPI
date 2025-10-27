@@ -2,7 +2,7 @@
 
 Configuração basica para funcionamento da Api Rest GLPI
 
-![Project Banner](./assets/1.png) <!-- Placeholder for a banner image; replace with actual if available -->
+![Project Banner](./assets/bannerSuperior) <!-- Placeholder for a banner image; replace with actual if available -->
 
 Conforme a imagem a cima mosta a opção Habilitar que se faça login com token externo esta desativado para usar login pelo token direto sem uso de login e password 
 
@@ -37,7 +37,7 @@ headers: {
 
 Configurações basica para ativar o serviço da API REST
 
-![Project Banner](./assets/2.png) <!-- Placeholder for a banner image; replace with actual if available -->
+![Project Banner](./assets/bannerInferior.png) <!-- Placeholder for a banner image; replace with actual if available -->
 
 No Intervalo de endereço IPv4
 
