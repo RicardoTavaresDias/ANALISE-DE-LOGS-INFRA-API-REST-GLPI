@@ -2,7 +2,7 @@
 
 Configuração basica para funcionamento da Api Rest GLPI
 
-![Project Banner](./assets/1.png) <!-- Placeholder for a banner image; replace with actual if available -->
+![Project Banner](/assets/1.png) <!-- Placeholder for a banner image; replace with actual if available -->
 
 Conforme a imagem a cima mosta a opção Habilitar que se faça login com token externo esta desativado para usar login pelo token direto sem uso de login e password 
 
