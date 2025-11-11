@@ -93,10 +93,7 @@ export async function validationCalledExists (dataunits: string[]) {
  */
 
 export function uniqueUnitsToHtml (arrayCalledsExists: string[]) {
-  const removeRepeatedUnits = arrayCalledsExists.filter((unit, index) => 
-      arrayCalledsExists.indexOf(unit) === index)
-
-    const mapHtmlUnits = removeRepeatedUnits.map(value => {
+    const mapHtmlUnits = arrayCalledsExists.map(value => {
       if (value.length > 7) {
         return value + "<br><br>"
       }
