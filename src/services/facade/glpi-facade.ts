@@ -79,24 +79,25 @@ export class GlpiFacade {
       try {
         // Criar chamado
         const group = await this.createCalled.listGroupAtor()
-        const resultGroup = groupsCreateCalled(group, unit)
-        const IdCalledCreate = await this.createCalled.newCalled(standardizationUnits[unit.toLowerCase()].id, resultGroup)
+        const resultGroup = groupsCreateCalled(group, unitStandard.name)
+        console.log(resultGroup)
+        // const IdCalledCreate = await this.createCalled.newCalled(standardizationUnits[unit.toLowerCase()].id, resultGroup)
         
-        // Agrupa todos os logs refaturado com sucess e error
-        const responseUnits = await readTaskCalled(unit)
-        if(responseUnits.isError){
-          // Inserir tarefa e fecha chamado => log sem Err
-          await this.calleds.taskCalled(IdCalledCreate, responseUnits.logs)
-          await this.calleds.calledSolution(IdCalledCreate)
-        } else {
-          // Inserir tarefa e deixa aberto o chamado => logs com Err
-          await this.calleds.taskCalled(IdCalledCreate, responseUnits.logs)
-        }
+        // // Agrupa todos os logs refaturado com sucess e error
+        // const responseUnits = await readTaskCalled(unit)
+        // if(responseUnits.isError){
+        //   // Inserir tarefa e fecha chamado => log sem Err
+        //   await this.calleds.taskCalled(IdCalledCreate, responseUnits.logs)
+        //   await this.calleds.calledSolution(IdCalledCreate)
+        // } else {
+        //   // Inserir tarefa e deixa aberto o chamado => logs com Err
+        //   await this.calleds.taskCalled(IdCalledCreate, responseUnits.logs)
+        // }
 
-        // Remover pasta temporária da unidade
-        removeFolderUnit(unit)
-        broadcastWss2('<p style="color: #22c55e">Chamado tramitado com sucesso <b>' + unit + "</b></p>")
-        broadcastWss2(`<p>---------------------------------------</p>`)
+        // // Remover pasta temporária da unidade
+        // removeFolderUnit(unit)
+        // broadcastWss2('<p style="color: #22c55e">Chamado tramitado com sucesso <b>' + unit + "</b></p>")
+        // broadcastWss2(`<p>---------------------------------------</p>`)
 
       } catch (error: any) {
         broadcastWss2(`<p>❌ Erro ao processar unidade "${unit}": ` + error.message || error + "<p>")

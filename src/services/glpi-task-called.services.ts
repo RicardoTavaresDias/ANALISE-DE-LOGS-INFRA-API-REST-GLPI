@@ -67,14 +67,13 @@ export async function validationCalledExists (dataunits: string[]) {
   const removeBR = dataunits.map(value => value?.replaceAll("<br>", ""))
   const nameUnitsExists = removeBR.filter(value => !value?.match(/\d{3}\d{3}/g))
 
-  // procurar por nome e trazer a chave do objeto
-  const existingUnitKey = Object.entries(standardizationUnits).filter(([key, value]) => nameUnitsExists.includes(value.name))
-  const keyUnit = existingUnitKey.map(value => value[0])
-
-  for (const keyExists of keyUnit) {
-    if (fsGlpiRepository.existsFileTmp(`./tmp/${keyExists}`)) {
-      await fsGlpiRepository.removeFolder(keyExists)
-    }      
+  for (const nameUnitsExist of nameUnitsExists) {
+    // procurar por nome e trazer a chave do objeto
+    const existingUnitKey = Object.entries(standardizationUnits).filter(([key, value]) => nameUnitsExist.includes(value.name))
+    const keyUnit = existingUnitKey.map(value => value[0])
+    if (fsGlpiRepository.existsFileTmp(`./tmp/${keyUnit}`)) {
+      await fsGlpiRepository.removeFolder(keyUnit[0])
+    }
   }
 
   try {

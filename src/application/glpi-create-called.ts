@@ -97,7 +97,7 @@ export class GlpiCreateCalled {
   public async listGroupAtor (): Promise<DataGroup[]> {
     const http = new Http(this.session.getSessionToken())
     return await http.request({
-      endpoint: `/Group`,
+      endpoint: `/Group?range=0-9999`,
       method: 'GET'
     })
   }
